@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-    "rust-roguelike-core",
+    "rust_roguelike_core",
+    "rust_roguelike_rendering_glium"
 ]
