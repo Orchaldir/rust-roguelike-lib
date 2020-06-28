@@ -36,7 +36,7 @@ impl GliumRenderer {
     fn add(&mut self, position: [f32; 2], color: Color) {
         self.colored_vertices.push(ColoredVertex {
             position,
-            color: color.to_array(),
+            color: color.into(),
         });
     }
 

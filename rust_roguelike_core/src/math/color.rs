@@ -21,9 +21,12 @@ impl Color {
     pub fn b(&self) -> f32 {
         self.b
     }
+}
 
-    pub fn to_array(&self) -> [f32; 3] {
-        [self.r, self.g, self.b]
+impl From<Color> for [f32; 3] {
+
+    fn from(color: Color) -> Self {
+        [color.r, color.g, color.b]
     }
 }
 
