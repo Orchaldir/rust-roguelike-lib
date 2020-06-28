@@ -2,9 +2,21 @@ extern crate glium;
 extern crate rust_roguelike_rendering_glium;
 
 use rust_roguelike_core::interface::rendering::Renderer;
+use rust_roguelike_core::interface::App;
 use rust_roguelike_core::math::color::{BLUE, GREEN};
 use rust_roguelike_core::math::size2d::Size2d;
 use rust_roguelike_rendering_glium::renderer::GliumRenderer;
+
+#[derive(Default)]
+pub struct MapApp {}
+
+impl App for MapApp {
+    fn render(&mut self, renderer: &mut dyn Renderer) {
+        renderer.start(BLUE);
+        renderer.render_triangle([400.0, 300.0], [600.0, 300.0], [500.0, 400.0], GREEN);
+        renderer.finish();
+    }
+}
 
 fn main() {
     #[allow(unused_imports)]
@@ -18,6 +30,8 @@ fn main() {
         .with_inner_size(window_size);
     let cb = glutin::ContextBuilder::new();
     let display = glium::Display::new(wb, cb, &event_loop).unwrap();
+
+    let mut app = MapApp::default();
 
     let mut renderer = GliumRenderer::new(display, size);
 
@@ -38,8 +52,6 @@ fn main() {
             _ => return,
         }
 
-        renderer.start(BLUE);
-        renderer.render_triangle([400.0, 300.0], [600.0, 300.0], [500.0, 400.0], GREEN);
-        renderer.finish();
+        app.render(&mut renderer);
     });
 }
