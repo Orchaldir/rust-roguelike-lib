@@ -1,40 +1,25 @@
-#[macro_use]
 extern crate glium;
 extern crate rust_roguelike_rendering_glium;
 
-use rust_roguelike_rendering_glium::shader::get_default_program;
+use rust_roguelike_core::interface::rendering::Renderer;
+use rust_roguelike_core::math::color::{BLUE, GREEN};
+use rust_roguelike_core::math::size2d::Size2d;
+use rust_roguelike_rendering_glium::renderer::GliumRenderer;
 
 fn main() {
     #[allow(unused_imports)]
     use glium::{glutin, Surface};
 
+    let size = Size2d::new(800, 600);
     let event_loop = glutin::event_loop::EventLoop::new();
-    let wb = glutin::window::WindowBuilder::new();
+    let window_size = glutin::dpi::LogicalSize::new(size.x(), size.y());
+    let wb = glutin::window::WindowBuilder::new()
+        .with_resizable(false)
+        .with_inner_size(window_size);
     let cb = glutin::ContextBuilder::new();
     let display = glium::Display::new(wb, cb, &event_loop).unwrap();
 
-    #[derive(Copy, Clone)]
-    struct Vertex {
-        position: [f32; 2],
-    }
-
-    implement_vertex!(Vertex, position);
-
-    let vertex1 = Vertex {
-        position: [-0.5, -0.5],
-    };
-    let vertex2 = Vertex {
-        position: [0.0, 0.5],
-    };
-    let vertex3 = Vertex {
-        position: [0.5, -0.25],
-    };
-    let shape = vec![vertex1, vertex2, vertex3];
-
-    let vertex_buffer = glium::VertexBuffer::new(&display, &shape).unwrap();
-    let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
-
-    let program = get_default_program(&display);
+    let mut renderer = GliumRenderer::new(display, size);
 
     event_loop.run(move |event, _, control_flow| {
         let next_frame_time =
@@ -53,17 +38,8 @@ fn main() {
             _ => return,
         }
 
-        let mut target = display.draw();
-        target.clear_color(0.0, 0.0, 1.0, 1.0);
-        target
-            .draw(
-                &vertex_buffer,
-                &indices,
-                &program,
-                &glium::uniforms::EmptyUniforms,
-                &Default::default(),
-            )
-            .unwrap();
-        target.finish().unwrap();
+        renderer.start(BLUE);
+        renderer.render_triangle([400.0, 300.0], [600.0, 300.0], [500.0, 400.0], GREEN);
+        renderer.finish();
     });
 }

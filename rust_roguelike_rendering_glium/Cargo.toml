@@ -7,5 +7,6 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+cgmath = "0.17.0"
 glium = "0.27.0"
 rust_roguelike_core = { path = "../rust_roguelike_core" }
