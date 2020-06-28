@@ -1,5 +1,8 @@
 #[macro_use]
 extern crate glium;
+extern crate rust_roguelike_rendering_glium;
+
+use rust_roguelike_rendering_glium::shader::get_default_program;
 
 fn main() {
     #[allow(unused_imports)]
@@ -31,25 +34,7 @@ fn main() {
     let vertex_buffer = glium::VertexBuffer::new(&display, &shape).unwrap();
     let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
 
-    let vertex_shader_src = r#"
-        #version 140
-        in vec2 position;
-        void main() {
-            gl_Position = vec4(position, 0.0, 1.0);
-        }
-    "#;
-
-    let fragment_shader_src = r#"
-        #version 140
-        out vec4 color;
-        void main() {
-            color = vec4(1.0, 0.0, 0.0, 1.0);
-        }
-    "#;
-
-    let program =
-        glium::Program::from_source(&display, vertex_shader_src, fragment_shader_src, None)
-            .unwrap();
+    let program = get_default_program(&display);
 
     event_loop.run(move |event, _, control_flow| {
         let next_frame_time =
