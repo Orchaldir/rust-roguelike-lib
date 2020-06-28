@@ -5,6 +5,7 @@ extern crate rust_roguelike_core;
 pub mod renderer;
 pub mod shader;
 pub mod vertex;
+pub mod window;
 
 use crate::vertex::ColoredVertex;
 
