@@ -4,6 +4,7 @@ extern crate rust_roguelike_core;
 
 pub mod renderer;
 pub mod shader;
+mod texture;
 pub mod vertex;
 pub mod window;
 
