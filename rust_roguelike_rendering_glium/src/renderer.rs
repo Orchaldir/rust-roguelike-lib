@@ -1,13 +1,19 @@
 use crate::shader::load_program;
-use crate::vertex::ColoredVertex;
+use crate::texture::load_texture;
+use crate::vertex::{ColoredVertex, TexturedVertex};
 use cgmath::ortho;
 use glium::{Program, Surface};
-use rust_roguelike_core::interface::rendering::Renderer;
+use rust_roguelike_core::interface::rendering::{Renderer, TextureId};
 use rust_roguelike_core::math::color::Color;
 use rust_roguelike_core::math::size2d::Size2d;
 
 const INDICES: glium::index::NoIndices =
     glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+
+struct TextureData {
+    texture: glium::texture::Texture2d,
+    vertices: Vec<TexturedVertex>,
+}
 
 pub struct GliumRenderer {
     display: glium::Display,
@@ -15,6 +21,7 @@ pub struct GliumRenderer {
     colored_program: Program,
     colored_vertices: Vec<ColoredVertex>,
     textured_program: Program,
+    texture_data: Vec<TextureData>,
     matrix: cgmath::Matrix4<f32>,
 }
 
@@ -32,6 +39,7 @@ impl GliumRenderer {
             colored_program,
             colored_vertices: Vec::new(),
             textured_program,
+            texture_data: Vec::new(),
             matrix,
         }
     }
@@ -79,6 +87,18 @@ impl Renderer for GliumRenderer {
         if let Some(target) = self.target.take() {
             target.finish().unwrap();
         }
+    }
+
+    fn load_texture(&mut self, filename: &str) -> TextureId {
+        let texture = load_texture(&self.display, filename).unwrap();
+        let id = self.texture_data.len();
+
+        self.texture_data.push(TextureData {
+            texture,
+            vertices: Vec::new(),
+        });
+
+        id
     }
 
     fn render_triangle(&mut self, a: [f32; 2], b: [f32; 2], c: [f32; 2], color: Color) {
