@@ -1,5 +1,5 @@
 use crate::renderer::GliumRenderer;
-use glium::glutin;
+use glium::{glutin, Display};
 use rust_roguelike_core::interface::rendering::Window;
 use rust_roguelike_core::interface::App;
 use rust_roguelike_core::math::size2d::Size2d;
@@ -19,19 +19,22 @@ impl GliumWindow {
     pub fn default_size(title: &'static str) -> GliumWindow {
         GliumWindow::new(title, Size2d::new(800, 600))
     }
-}
 
-impl Window for GliumWindow {
-    fn run(&mut self, app: Rc<RefCell<dyn App>>) -> ! {
+    fn create_display(&self, event_loop: &glutin::event_loop::EventLoop<()>) -> Display {
         let size = glutin::dpi::LogicalSize::new(self.size.x(), self.size.y());
-        let event_loop = glutin::event_loop::EventLoop::new();
         let wb = glutin::window::WindowBuilder::new()
             .with_title(self.title)
             .with_resizable(false)
             .with_inner_size(size);
         let cb = glutin::ContextBuilder::new();
-        let display = glium::Display::new(wb, cb, &event_loop).unwrap();
+        glium::Display::new(wb, cb, event_loop).unwrap()
+    }
+}
 
+impl Window for GliumWindow {
+    fn run(&mut self, app: Rc<RefCell<dyn App>>) -> ! {
+        let event_loop = glutin::event_loop::EventLoop::new();
+        let display = self.create_display(&event_loop);
         let mut renderer = GliumRenderer::new(display, self.size);
 
         event_loop.run(move |event, _, control_flow| {
