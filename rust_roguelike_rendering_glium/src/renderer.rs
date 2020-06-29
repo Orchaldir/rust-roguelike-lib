@@ -14,12 +14,14 @@ pub struct GliumRenderer {
     target: Option<glium::Frame>,
     colored_program: Program,
     colored_vertices: Vec<ColoredVertex>,
+    textured_program: Program,
     matrix: cgmath::Matrix4<f32>,
 }
 
 impl GliumRenderer {
     pub fn new(display: glium::Display, size: Size2d) -> GliumRenderer {
         let colored_program = load_program(&display, "colored.vertex", "colored.fragment");
+        let textured_program = load_program(&display, "textured.vertex", "textured.fragment");
 
         let matrix: cgmath::Matrix4<f32> =
             ortho(0.0, size.x() as f32, 0.0, size.y() as f32, -1.0, 1.0);
@@ -29,6 +31,7 @@ impl GliumRenderer {
             target: None,
             colored_program,
             colored_vertices: Vec::new(),
+            textured_program,
             matrix,
         }
     }
