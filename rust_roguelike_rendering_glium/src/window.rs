@@ -37,6 +37,11 @@ impl Window for GliumWindow {
         let display = self.create_display(&event_loop);
         let mut renderer = GliumRenderer::new(display, self.size);
 
+        {
+            let mut reference = app.borrow_mut();
+            reference.init(&mut renderer);
+        }
+
         event_loop.run(move |event, _, control_flow| {
             let next_frame_time =
                 std::time::Instant::now() + std::time::Duration::from_nanos(16_666_667);

@@ -12,6 +12,16 @@ pub trait Renderer {
     fn load_texture(&mut self, filename: &str) -> TextureId;
 
     fn render_triangle(&mut self, a: [f32; 2], b: [f32; 2], c: [f32; 2], color: Color);
+
+    fn render_texture(
+        &mut self,
+        id: TextureId,
+        position: [f32; 2],
+        size: [f32; 2],
+        tc: [f32; 2],
+        tc_size: [f32; 2],
+        color: Color,
+    );
 }
 
 pub trait Window {

@@ -9,9 +9,11 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 #[derive(Default)]
-pub struct MapApp {}
+pub struct TriangleApp {}
 
-impl App for MapApp {
+impl App for TriangleApp {
+    fn init(&mut self, _: &mut dyn Renderer) {}
+
     fn render(&mut self, renderer: &mut dyn Renderer) {
         renderer.start(BLUE);
         renderer.render_triangle([400.0, 300.0], [600.0, 300.0], [500.0, 400.0], GREEN);
@@ -22,7 +24,7 @@ impl App for MapApp {
 
 fn main() {
     let mut window = GliumWindow::default_size("Example with colored Triangles");
-    let app = Rc::new(RefCell::new(MapApp::default()));
+    let app = Rc::new(RefCell::new(TriangleApp::default()));
 
     window.run(app.clone());
 }
