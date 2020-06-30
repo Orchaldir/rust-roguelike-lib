@@ -3,7 +3,7 @@ extern crate rust_roguelike_rendering_glium;
 
 use rust_roguelike_core::interface::rendering::{Renderer, Window};
 use rust_roguelike_core::interface::App;
-use rust_roguelike_core::math::color::{BLUE, GREEN, RED};
+use rust_roguelike_core::math::color::{BLUE, GREEN, RED, YELLOW};
 use rust_roguelike_rendering_glium::window::GliumWindow;
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -18,6 +18,7 @@ impl App for TriangleApp {
         renderer.start(BLUE);
         renderer.render_triangle([400.0, 300.0], [600.0, 300.0], [500.0, 400.0], GREEN);
         renderer.render_triangle([100.0, 300.0], [300.0, 300.0], [200.0, 400.0], RED);
+        renderer.render_rectangle([300.0, 40.0], [140.0, 50.0], YELLOW);
         renderer.finish();
     }
 }

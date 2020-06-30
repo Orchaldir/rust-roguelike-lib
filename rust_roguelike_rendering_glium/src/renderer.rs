@@ -164,6 +164,13 @@ impl Renderer for GliumRenderer {
         self.add(c, color);
     }
 
+    fn render_rectangle(&mut self, position: [f32; 2], size: [f32; 2], color: Color) {
+        let [c00, c10, c01, c11] = get_corners(position, size);
+
+        self.render_triangle(c00, c10, c11, color);
+        self.render_triangle(c00, c11, c01, color);
+    }
+
     fn render_texture(
         &mut self,
         id: TextureId,
