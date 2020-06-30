@@ -106,13 +106,18 @@ impl GliumRenderer {
             tex: &data.texture,
             };
 
+            let draw_parameters = glium::draw_parameters::DrawParameters {
+                blend: glium::draw_parameters::Blend::alpha_blending(),
+                ..glium::draw_parameters::DrawParameters::default()
+            };
+
             target
                 .draw(
                     &vertex_buffer,
                     &INDICES,
                     &self.textured_program,
                     &uniforms,
-                    &Default::default(),
+                    &draw_parameters,
                 )
                 .unwrap();
         }
