@@ -3,9 +3,9 @@ extern crate glium;
 extern crate rust_roguelike_core;
 
 pub mod renderer;
-pub mod shader;
+mod shader;
 mod texture;
-pub mod vertex;
+mod vertex;
 pub mod window;
 
 use crate::vertex::ColoredVertex;

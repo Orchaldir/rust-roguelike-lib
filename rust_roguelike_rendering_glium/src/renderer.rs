@@ -76,7 +76,7 @@ impl GliumRenderer {
         });
     }
 
-    fn render_colored(&mut self) {
+    fn render_colored_triangles(&mut self) {
         let target = self.target.as_mut().unwrap();
         let vertex_buffer =
             glium::VertexBuffer::new(&self.display, &self.colored_vertices).unwrap();
@@ -96,19 +96,20 @@ impl GliumRenderer {
             .unwrap();
     }
 
-    fn render_textured(&mut self) {
+    fn render_textured_triangles(&mut self) {
+        let target = self.target.as_mut().unwrap();
+
+        let draw_parameters = glium::draw_parameters::DrawParameters {
+            blend: glium::draw_parameters::Blend::alpha_blending(),
+            ..glium::draw_parameters::DrawParameters::default()
+        };
+
         for data in &self.texture_data {
-            let target = self.target.as_mut().unwrap();
             let vertex_buffer = glium::VertexBuffer::new(&self.display, &data.vertices).unwrap();
 
             let uniforms = uniform! {
-            matrix: Into::<[[f32; 4]; 4]>::into(self.matrix),
-            tex: &data.texture,
-            };
-
-            let draw_parameters = glium::draw_parameters::DrawParameters {
-                blend: glium::draw_parameters::Blend::alpha_blending(),
-                ..glium::draw_parameters::DrawParameters::default()
+                matrix: Into::<[[f32; 4]; 4]>::into(self.matrix),
+                tex: &data.texture,
             };
 
             target
@@ -137,8 +138,8 @@ impl Renderer for GliumRenderer {
     }
 
     fn finish(&mut self) {
-        self.render_colored();
-        self.render_textured();
+        self.render_colored_triangles();
+        self.render_textured_triangles();
 
         if let Some(target) = self.target.take() {
             target.finish().unwrap();
