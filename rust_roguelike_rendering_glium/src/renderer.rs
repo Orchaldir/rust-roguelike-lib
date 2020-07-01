@@ -4,9 +4,7 @@ use crate::shader::load_program;
 use crate::texture::load_texture;
 use cgmath::ortho;
 use glium::{Program, Surface};
-use rust_roguelike_core::interface::rendering::{
-    ColorRenderer, Renderer, TextureId, TextureRenderer,
-};
+use rust_roguelike_core::interface::rendering::{ColorRenderer, Renderer, TextureId, TextureRenderer, AsciiRenderer};
 use rust_roguelike_core::math::color::Color;
 use rust_roguelike_core::math::size2d::Size2d;
 
@@ -135,6 +133,10 @@ impl Renderer for GliumRenderer {
     }
 
     fn get_texture_renderer(&mut self, id: usize) -> &mut dyn TextureRenderer {
+        &mut self.texture_data[id].builder
+    }
+
+    fn get_ascii_renderer(&mut self, id: usize) -> &mut dyn AsciiRenderer {
         &mut self.texture_data[id].builder
     }
 }

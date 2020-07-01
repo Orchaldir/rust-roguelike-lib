@@ -13,6 +13,7 @@ pub trait Renderer {
 
     fn get_color_renderer(&mut self) -> &mut dyn ColorRenderer;
     fn get_texture_renderer(&mut self, id: TextureId) -> &mut dyn TextureRenderer;
+    fn get_ascii_renderer(&mut self, id: TextureId) -> &mut dyn AsciiRenderer;
 }
 
 pub trait ColorRenderer {
@@ -29,6 +30,14 @@ pub trait TextureRenderer {
         tc_size: [f32; 2],
         color: Color,
     );
+}
+
+pub trait AsciiRenderer {
+    fn render_text(&mut self, position: [f32; 2], size: [f32; 2], string: &str, color: Color);
+
+    fn render_char(&mut self, position: [f32; 2], size: [f32; 2], c: char, color: Color);
+
+    fn render_u8(&mut self, position: [f32; 2], size: [f32; 2], ascii: u8, color: Color);
 }
 
 pub trait Window {

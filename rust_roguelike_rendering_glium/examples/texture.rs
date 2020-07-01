@@ -9,11 +9,11 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 #[derive(Default)]
-pub struct TextureApp {
+pub struct TextureExample {
     texture_id: TextureId,
 }
 
-impl App for TextureApp {
+impl App for TextureExample {
     fn init(&mut self, renderer: &mut dyn Renderer) {
         self.texture_id = renderer.load_texture("ascii.png");
     }
@@ -33,7 +33,7 @@ impl App for TextureApp {
 
 fn main() {
     let mut window = GliumWindow::default_size("Example with a texture");
-    let app = Rc::new(RefCell::new(TextureApp::default()));
+    let app = Rc::new(RefCell::new(TextureExample::default()));
 
     window.run(app.clone());
 }

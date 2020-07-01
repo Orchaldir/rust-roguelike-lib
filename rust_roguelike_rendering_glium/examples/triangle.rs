@@ -9,9 +9,9 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 #[derive(Default)]
-pub struct TriangleApp {}
+pub struct TriangleExample {}
 
-impl App for TriangleApp {
+impl App for TriangleExample {
     fn init(&mut self, _: &mut dyn Renderer) {}
 
     fn render(&mut self, renderer: &mut dyn Renderer) {
@@ -26,7 +26,7 @@ impl App for TriangleApp {
 
 fn main() {
     let mut window = GliumWindow::default_size("Example with colored Triangles");
-    let app = Rc::new(RefCell::new(TriangleApp::default()));
+    let app = Rc::new(RefCell::new(TriangleExample::default()));
 
     window.run(app.clone());
 }
