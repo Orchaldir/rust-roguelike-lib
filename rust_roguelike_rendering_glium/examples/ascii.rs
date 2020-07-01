@@ -3,7 +3,7 @@ extern crate rust_roguelike_rendering_glium;
 
 use rust_roguelike_core::interface::rendering::{Renderer, TextureId, Window};
 use rust_roguelike_core::interface::App;
-use rust_roguelike_core::math::color::{BLUE, RED, GREEN, WHITE, YELLOW};
+use rust_roguelike_core::math::color::{BLUE, GREEN, RED, WHITE, YELLOW};
 use rust_roguelike_rendering_glium::window::GliumWindow;
 use std::cell::RefCell;
 use std::rc::Rc;

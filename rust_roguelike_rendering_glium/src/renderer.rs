@@ -4,7 +4,9 @@ use crate::shader::load_program;
 use crate::texture::load_texture;
 use cgmath::ortho;
 use glium::{Program, Surface};
-use rust_roguelike_core::interface::rendering::{ColorRenderer, Renderer, TextureId, TextureRenderer, AsciiRenderer};
+use rust_roguelike_core::interface::rendering::{
+    AsciiRenderer, ColorRenderer, Renderer, TextureId, TextureRenderer,
+};
 use rust_roguelike_core::math::color::Color;
 use rust_roguelike_core::math::size2d::Size2d;
 
