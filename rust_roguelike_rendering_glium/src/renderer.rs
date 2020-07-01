@@ -1,10 +1,12 @@
 use crate::builder::color::ColorBuilder;
+use crate::builder::texture::TextureBuilder;
 use crate::shader::load_program;
 use crate::texture::load_texture;
-use crate::vertex::TexturedVertex;
 use cgmath::ortho;
 use glium::{Program, Surface};
-use rust_roguelike_core::interface::rendering::{ColorRenderer, Renderer, TextureId};
+use rust_roguelike_core::interface::rendering::{
+    ColorRenderer, Renderer, TextureId, TextureRenderer,
+};
 use rust_roguelike_core::math::color::Color;
 use rust_roguelike_core::math::size2d::Size2d;
 
@@ -13,32 +15,7 @@ const INDICES: glium::index::NoIndices =
 
 struct TextureData {
     texture: glium::texture::Texture2d,
-    vertices: Vec<TexturedVertex>,
-}
-
-impl TextureData {
-    pub fn add_triangle(
-        &mut self,
-        a: [f32; 2],
-        b: [f32; 2],
-        c: [f32; 2],
-        tc_a: [f32; 2],
-        tc_b: [f32; 2],
-        tc_c: [f32; 2],
-        color: Color,
-    ) {
-        self.add(a, tc_a, color);
-        self.add(b, tc_b, color);
-        self.add(c, tc_c, color);
-    }
-
-    fn add(&mut self, position: [f32; 2], tc: [f32; 2], color: Color) {
-        self.vertices.push(TexturedVertex {
-            position,
-            color: color.into(),
-            tc,
-        });
-    }
+    builder: TextureBuilder,
 }
 
 pub struct GliumRenderer {
@@ -99,7 +76,8 @@ impl GliumRenderer {
         };
 
         for data in &self.texture_data {
-            let vertex_buffer = glium::VertexBuffer::new(&self.display, &data.vertices).unwrap();
+            let vertex_buffer =
+                glium::VertexBuffer::new(&self.display, &data.builder.vertices).unwrap();
 
             let uniforms = uniform! {
                 matrix: Into::<[[f32; 4]; 4]>::into(self.matrix),
@@ -128,7 +106,7 @@ impl Renderer for GliumRenderer {
         self.color_builder.vertices.clear();
         self.texture_data
             .iter_mut()
-            .for_each(|x| x.vertices.clear());
+            .for_each(|x| x.builder.vertices.clear());
     }
 
     fn finish(&mut self) {
@@ -146,7 +124,7 @@ impl Renderer for GliumRenderer {
 
         self.texture_data.push(TextureData {
             texture,
-            vertices: Vec::new(),
+            builder: TextureBuilder::default(),
         });
 
         id
@@ -156,22 +134,8 @@ impl Renderer for GliumRenderer {
         &mut self.color_builder
     }
 
-    fn render_texture(
-        &mut self,
-        id: TextureId,
-        position: [f32; 2],
-        size: [f32; 2],
-        tc: [f32; 2],
-        tc_size: [f32; 2],
-        color: Color,
-    ) {
-        let [c00, c10, c01, c11] = get_corners(position, size);
-        let [tc00, tc10, tc01, tc11] = get_corners(tc, tc_size);
-
-        let data = &mut self.texture_data[id];
-
-        data.add_triangle(c00, c10, c11, tc00, tc10, tc11, color);
-        data.add_triangle(c00, c11, c01, tc00, tc11, tc01, color);
+    fn get_texture_renderer(&mut self, id: usize) -> &mut dyn TextureRenderer {
+        &mut self.texture_data[id].builder
     }
 }
 

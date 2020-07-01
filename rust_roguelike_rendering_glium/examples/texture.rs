@@ -20,8 +20,7 @@ impl App for TextureApp {
 
     fn render(&mut self, renderer: &mut dyn Renderer) {
         renderer.start(BLUE);
-        renderer.render_texture(
-            self.texture_id,
+        renderer.get_texture_renderer(self.texture_id).render_tile(
             [200.0, 100.0],
             [400.0, 400.0],
             [0.0, 0.0],
