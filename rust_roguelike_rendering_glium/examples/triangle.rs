@@ -12,8 +12,6 @@ use std::rc::Rc;
 pub struct TriangleExample {}
 
 impl App for TriangleExample {
-    fn init(&mut self, _: &mut dyn Renderer) {}
-
     fn render(&mut self, renderer: &mut dyn Renderer) {
         renderer.start(BLUE);
         let color_renderer = renderer.get_color_renderer();

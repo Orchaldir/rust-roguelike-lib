@@ -1,6 +1,7 @@
 extern crate glium;
 extern crate rust_roguelike_rendering_glium;
 
+use rust_roguelike_core::interface::input::KeyCode;
 use rust_roguelike_core::interface::rendering::{Renderer, TextureId, Window};
 use rust_roguelike_core::interface::App;
 use rust_roguelike_core::math::color::{BLUE, GREEN, RED, WHITE, YELLOW};
@@ -32,6 +33,10 @@ impl App for AsciiExample {
             YELLOW,
         );
         renderer.finish();
+    }
+
+    fn on_key_released(&mut self, key: KeyCode) {
+        println!("Released {:?}", key)
     }
 }
 
