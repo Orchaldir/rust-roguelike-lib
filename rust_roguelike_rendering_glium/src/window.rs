@@ -1,3 +1,4 @@
+use crate::input::convert;
 use crate::renderer::GliumRenderer;
 use glium::{glutin, Display};
 use rust_roguelike_core::interface::rendering::Window;
@@ -52,6 +53,16 @@ impl Window for GliumWindow {
                     glutin::event::WindowEvent::CloseRequested => {
                         *control_flow = glutin::event_loop::ControlFlow::Exit;
                         return;
+                    }
+                    glutin::event::WindowEvent::KeyboardInput { input, .. } => {
+                        if input.state == glutin::event::ElementState::Released {
+                            if let Some(glutin_key) = input.virtual_keycode {
+                                if let Some(key) = convert(glutin_key) {
+                                    let mut reference = app.borrow_mut();
+                                    reference.on_key_released(key);
+                                }
+                            }
+                        }
                     }
                     _ => return,
                 },

@@ -3,6 +3,7 @@ extern crate glium;
 extern crate rust_roguelike_core;
 
 mod builder;
+mod input;
 pub mod renderer;
 mod shader;
 mod texture;
