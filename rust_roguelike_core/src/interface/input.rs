@@ -1,3 +1,4 @@
+/// Possible keyboard keys
 #[derive(Debug, Hash, Ord, PartialOrd, PartialEq, Eq, Clone, Copy)]
 #[repr(u32)]
 pub enum KeyCode {
@@ -69,4 +70,12 @@ pub enum KeyCode {
     Up,
     Right,
     Down,
+}
+
+/// Possible buttons of a mouse
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+pub enum MouseButton {
+    Left,
+    Middle,
+    Right,
 }

@@ -1,8 +1,8 @@
 use glium::glutin::event::VirtualKeyCode;
-use rust_roguelike_core::interface::input::KeyCode;
+use rust_roguelike_core::interface::input::{KeyCode, MouseButton};
 
-pub fn convert(value: VirtualKeyCode) -> Option<KeyCode> {
-    return match value {
+pub fn convert_key_code(value: VirtualKeyCode) -> Option<KeyCode> {
+    match value {
         VirtualKeyCode::Key1 => Some(KeyCode::Key1),
         VirtualKeyCode::Key2 => Some(KeyCode::Key2),
         VirtualKeyCode::Key3 => Some(KeyCode::Key3),
@@ -67,5 +67,16 @@ pub fn convert(value: VirtualKeyCode) -> Option<KeyCode> {
         VirtualKeyCode::Return => Some(KeyCode::Enter),
         VirtualKeyCode::Space => Some(KeyCode::Space),
         _ => None,
-    };
+    }
+}
+
+type GliumMouseButton = glium::glutin::event::MouseButton;
+
+pub fn convert_mouse_button(value: GliumMouseButton) -> Option<MouseButton> {
+    match value {
+        GliumMouseButton::Left => Some(MouseButton::Left),
+        GliumMouseButton::Right => Some(MouseButton::Right),
+        GliumMouseButton::Middle => Some(MouseButton::Middle),
+        _ => None,
+    }
 }
