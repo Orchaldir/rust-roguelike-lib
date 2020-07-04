@@ -71,6 +71,14 @@ impl Size2d {
     }
 }
 
+/// Adds 2 sizes
+///
+/// ```
+///# use rust_roguelike_core::math::size2d::Size2d;
+/// let a = Size2d::new(2, 3);
+/// let b = Size2d::new(10, 40);
+/// assert_eq!(a + b, Size2d::new(12, 43));
+/// ```
 impl Add for Size2d {
     type Output = Self;
 
@@ -82,6 +90,14 @@ impl Add for Size2d {
     }
 }
 
+/// Multiplies 2 sizes
+///
+/// ```
+///# use rust_roguelike_core::math::size2d::Size2d;
+/// let a = Size2d::new(2, 3);
+/// let b = Size2d::new(10, 40);
+/// assert_eq!(a * b, Size2d::new(20, 120));
+/// ```
 impl Mul for Size2d {
     type Output = Self;
 
