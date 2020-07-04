@@ -10,7 +10,7 @@ use std::rc::Rc;
 pub struct GliumWindow {
     title: &'static str,
     size: Size2d,
-    tiles: Size2d
+    tiles: Size2d,
 }
 
 impl GliumWindow {
