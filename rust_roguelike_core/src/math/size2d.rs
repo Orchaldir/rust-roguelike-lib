@@ -64,7 +64,7 @@ impl Size2d {
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
     /// let size = Size2d::new(2, 3);
-    /// assert_eq!(size.to_position(5), [1,2]);
+    /// assert_eq!(size.to_point(5), [1,2]);
     /// ```
     pub fn to_point(&self, index: usize) -> [u32; 2] {
         [self.to_x(index), self.to_y(index)]
