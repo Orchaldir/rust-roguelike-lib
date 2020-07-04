@@ -10,15 +10,17 @@ use std::rc::Rc;
 pub struct GliumWindow {
     title: &'static str,
     size: Size2d,
+    tiles: Size2d
 }
 
 impl GliumWindow {
-    pub fn new(title: &'static str, size: Size2d) -> GliumWindow {
-        GliumWindow { title, size }
+    pub fn new(title: &'static str, tiles: Size2d, tile_size: Size2d) -> GliumWindow {
+        let size = tiles * tile_size;
+        GliumWindow { title, size, tiles }
     }
 
     pub fn default_size(title: &'static str) -> GliumWindow {
-        GliumWindow::new(title, Size2d::new(800, 600))
+        GliumWindow::new(title, Size2d::new(40, 30), Size2d::new(20, 20))
     }
 
     fn create_display(&self, event_loop: &glutin::event_loop::EventLoop<()>) -> Display {
@@ -36,7 +38,7 @@ impl Window for GliumWindow {
     fn run(&mut self, app: Rc<RefCell<dyn App>>) -> ! {
         let event_loop = glutin::event_loop::EventLoop::new();
         let display = self.create_display(&event_loop);
-        let mut renderer = GliumRenderer::new(display, self.size);
+        let mut renderer = GliumRenderer::new(display, self.tiles);
 
         {
             let mut reference = app.borrow_mut();

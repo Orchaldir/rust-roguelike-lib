@@ -22,7 +22,7 @@ impl App for TextureExample {
         renderer.start(BLUE);
         renderer
             .get_texture_renderer(self.texture_id)
-            .render_rectangle([200.0, 100.0], [400.0, 400.0], [0.0, 0.0], [1.0, 1.0], RED);
+            .render_rectangle([10.0, 5.0], [20.0, 20.0], [0.0, 0.0], [1.0, 1.0], RED);
         renderer.finish();
     }
 }

@@ -23,12 +23,12 @@ impl App for AsciiExample {
         renderer.start(BLUE);
 
         let ascii_renderer = renderer.get_ascii_renderer(self.texture_id);
-        ascii_renderer.render_u8([200.0, 200.0], [100.0, 100.0], b'a', RED);
-        ascii_renderer.render_char([300.0, 200.0], [100.0, 100.0], 'b', GREEN);
-        ascii_renderer.render_text([300.0, 500.0], [20.0, 20.0], "Test?", WHITE);
+        ascii_renderer.render_u8([10.0, 10.0], [5.0, 5.0], b'a', RED);
+        ascii_renderer.render_char([15.0, 10.0], [5.0, 5.0], 'b', GREEN);
+        ascii_renderer.render_text([15.0, 25.0], [1.0, 1.0], "Test?", WHITE);
         ascii_renderer.render_text(
-            [0.0, 50.0],
-            [20.0, 20.0],
+            [0.0, 2.5],
+            [1.0, 1.0],
             "Non-Ascii Symbols are replaced with '🎉'!",
             YELLOW,
         );
