@@ -24,7 +24,7 @@ impl ColorRenderer for ColorBuilder {
         self.add(c, color);
     }
 
-    fn render_tile(&mut self, position: [f32; 2], size: [f32; 2], color: Color) {
+    fn render_rectangle(&mut self, position: [f32; 2], size: [f32; 2], color: Color) {
         let [c00, c10, c01, c11] = get_corners(position, size);
 
         self.render_triangle(c00, c10, c11, color);

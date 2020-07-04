@@ -18,11 +18,11 @@ pub trait Renderer {
 
 pub trait ColorRenderer {
     fn render_triangle(&mut self, a: [f32; 2], b: [f32; 2], c: [f32; 2], color: Color);
-    fn render_tile(&mut self, position: [f32; 2], size: [f32; 2], color: Color);
+    fn render_rectangle(&mut self, position: [f32; 2], size: [f32; 2], color: Color);
 }
 
 pub trait TextureRenderer {
-    fn render_tile(
+    fn render_rectangle(
         &mut self,
         position: [f32; 2],
         size: [f32; 2],

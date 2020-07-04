@@ -39,7 +39,7 @@ impl TextureBuilder {
 }
 
 impl TextureRenderer for TextureBuilder {
-    fn render_tile(
+    fn render_rectangle(
         &mut self,
         position: [f32; 2],
         size: [f32; 2],
@@ -78,6 +78,6 @@ impl AsciiRenderer for TextureBuilder {
 
         let tc = [column as f32 * TC_C, 1.0 - (row + 1) as f32 * TC_C];
 
-        self.render_tile(position, size, tc, TC_SIZE, color);
+        self.render_rectangle(position, size, tc, TC_SIZE, color);
     }
 }

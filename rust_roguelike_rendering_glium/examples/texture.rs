@@ -20,7 +20,7 @@ impl App for TextureExample {
 
     fn render(&mut self, renderer: &mut dyn Renderer) {
         renderer.start(BLUE);
-        renderer.get_texture_renderer(self.texture_id).render_tile(
+        renderer.get_texture_renderer(self.texture_id).render_rectangle(
             [200.0, 100.0],
             [400.0, 400.0],
             [0.0, 0.0],
