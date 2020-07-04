@@ -1,14 +1,32 @@
 use crate::interface::App;
 use crate::math::color::Color;
+use crate::math::size2d::Size2d;
 use std::cell::RefCell;
 use std::rc::Rc;
 
 pub type TextureId = usize;
 
+/// A trait to abstract away different rendering libraries and render targets.
 pub trait Renderer {
+    /// Returns the size of the render target in tiles.
+    /// A tile is big enough to hold a single ascii character.
+    fn get_size(&self) -> Size2d;
+
+    /// Starts the rendering and fills the render target with the Color `color`
     fn start(&mut self, color: Color);
+
+    /// Finishes the rendering
     fn finish(&mut self);
 
+    /// Loads a texture from a file and returns a `TextureId` as a handle
+    ///
+    /// # Panics
+    ///
+    /// Panics if the file does not exist.
+    ///
+    /// Panics if the file is not an image.
+    ///
+    /// Panics if it can not create a texture from the image.
     fn load_texture(&mut self, filename: &str) -> TextureId;
 
     fn get_color_renderer(&mut self) -> &mut dyn ColorRenderer;

@@ -19,6 +19,7 @@ struct TextureData {
 }
 
 pub struct GliumRenderer {
+    size: Size2d,
     display: glium::Display,
     target: Option<glium::Frame>,
     color_builder: ColorBuilder,
@@ -37,6 +38,7 @@ impl GliumRenderer {
             ortho(0.0, size.x() as f32, 0.0, size.y() as f32, -1.0, 1.0);
 
         GliumRenderer {
+            size,
             display,
             target: None,
             color_builder: ColorBuilder::default(),
@@ -98,6 +100,10 @@ impl GliumRenderer {
 }
 
 impl Renderer for GliumRenderer {
+    fn get_size(&self) -> Size2d {
+        self.size
+    }
+
     fn start(&mut self, color: Color) {
         let mut target = self.display.draw();
         target.clear_color(color.r(), color.g(), color.b(), 1.0);
