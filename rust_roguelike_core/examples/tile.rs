@@ -1,6 +1,6 @@
 extern crate rust_roguelike_rendering_glium;
 
-use rust_roguelike_core::interface::input::KeyCode;
+use rust_roguelike_core::interface::input::{KeyCode, MouseButton};
 use rust_roguelike_core::interface::rendering::{Renderer, TextureId, Window};
 use rust_roguelike_core::interface::App;
 use rust_roguelike_core::math::color::{BLACK, BLUE, GREEN, RED, YELLOW};
@@ -12,6 +12,7 @@ use std::rc::Rc;
 #[derive(Default)]
 pub struct TileExample {
     texture_id: TextureId,
+    index: usize,
 }
 
 impl App for TileExample {
@@ -24,7 +25,7 @@ impl App for TileExample {
 
         renderer.start(BLACK);
 
-        tile_renderer.render_full(renderer, 0, RED);
+        tile_renderer.render_full(renderer, self.index, RED);
         tile_renderer.render_full(renderer, 1, GREEN);
         tile_renderer.render_full(renderer, 2, BLUE);
         tile_renderer.render_ascii(renderer, 40, b'A', YELLOW);
@@ -33,7 +34,12 @@ impl App for TileExample {
     }
 
     fn on_key_released(&mut self, key: KeyCode) {
-        println!("Released {:?}", key)
+        println!("Released {:?}", key);
+    }
+
+    fn on_button_released(&mut self, button: MouseButton, index: usize) {
+        println!("Released {:?} at {}", button, index);
+        self.index = index;
     }
 }
 

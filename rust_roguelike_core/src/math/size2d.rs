@@ -69,6 +69,17 @@ impl Size2d {
     pub fn to_point(&self, index: usize) -> [u32; 2] {
         [self.to_x(index), self.to_y(index)]
     }
+
+    /// Converts a point to the equivalent index
+    ///
+    /// ```
+    ///# use rust_roguelike_core::math::size2d::Size2d;
+    /// let size = Size2d::new(2, 3);
+    /// assert_eq!(size.to_index(1, 2), 5);
+    /// ```
+    pub fn to_index(&self, x: u32, y: u32) -> usize {
+        (y * self.x + x) as usize
+    }
 }
 
 /// Adds 2 sizes

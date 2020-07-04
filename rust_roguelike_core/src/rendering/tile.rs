@@ -14,7 +14,7 @@ impl TileRenderer {
         TileRenderer { texture_id }
     }
 
-    /// Renders a tile with a uniform color
+    /// Renders the tile at `index` with a uniform color
     pub fn render_full(&mut self, renderer: &mut dyn Renderer, index: usize, color: Color) {
         let point = renderer.get_size().to_point(index);
         let point = [point[0] as f32, point[1] as f32];
@@ -23,7 +23,7 @@ impl TileRenderer {
             .render_rectangle(point, SIZE, color);
     }
 
-    /// Renders a tile as an ascii character
+    /// Renders the tile at `index` as an ascii character
     pub fn render_ascii(
         &mut self,
         renderer: &mut dyn Renderer,
