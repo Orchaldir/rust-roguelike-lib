@@ -10,12 +10,12 @@ pub struct Size2d {
 pub const ZERO: Size2d = Size2d { x: 0, y: 0 };
 
 impl Size2d {
-    /// Create a new Size2d
+    /// Creates a new Size2d
     pub fn new(x: u32, y: u32) -> Size2d {
         Size2d { x, y }
     }
 
-    /// Get the size along the x-axis
+    /// Returns the size along the x-axis
     ///
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
@@ -26,7 +26,7 @@ impl Size2d {
         self.x
     }
 
-    /// Get the size along the y-axis
+    /// Returns the size along the y-axis
     ///
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
@@ -37,7 +37,7 @@ impl Size2d {
         self.y
     }
 
-    /// Convert an index to the x-coordinate of the equivalent point
+    /// Converts an index to the x-coordinate of the equivalent point
     ///
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
@@ -48,7 +48,7 @@ impl Size2d {
         index as u32 % self.x
     }
 
-    /// Convert an index to the y-coordinate of the equivalent point
+    /// Converts an index to the y-coordinate of the equivalent point
     ///
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
@@ -59,7 +59,7 @@ impl Size2d {
         index as u32 / self.x
     }
 
-    /// Convert an index to the equivalent point
+    /// Converts an index to the equivalent point
     ///
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;

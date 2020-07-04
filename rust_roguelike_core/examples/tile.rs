@@ -3,7 +3,7 @@ extern crate rust_roguelike_rendering_glium;
 use rust_roguelike_core::interface::input::KeyCode;
 use rust_roguelike_core::interface::rendering::{Renderer, TextureId, Window};
 use rust_roguelike_core::interface::App;
-use rust_roguelike_core::math::color::{BLACK, BLUE, GREEN, RED};
+use rust_roguelike_core::math::color::{BLACK, BLUE, GREEN, RED, YELLOW};
 use rust_roguelike_core::rendering::tile::TileRenderer;
 use rust_roguelike_rendering_glium::window::GliumWindow;
 use std::cell::RefCell;
@@ -12,7 +12,6 @@ use std::rc::Rc;
 #[derive(Default)]
 pub struct TileExample {
     texture_id: TextureId,
-    tile_renderer: TileRenderer,
 }
 
 impl App for TileExample {
@@ -21,11 +20,14 @@ impl App for TileExample {
     }
 
     fn render(&mut self, renderer: &mut dyn Renderer) {
+        let mut tile_renderer = TileRenderer::new(self.texture_id);
+
         renderer.start(BLACK);
 
-        self.tile_renderer.render_full(renderer, 0, RED);
-        self.tile_renderer.render_full(renderer, 1, GREEN);
-        self.tile_renderer.render_full(renderer, 2, BLUE);
+        tile_renderer.render_full(renderer, 0, RED);
+        tile_renderer.render_full(renderer, 1, GREEN);
+        tile_renderer.render_full(renderer, 2, BLUE);
+        tile_renderer.render_ascii(renderer, 40, b'A', YELLOW);
 
         renderer.finish();
     }
