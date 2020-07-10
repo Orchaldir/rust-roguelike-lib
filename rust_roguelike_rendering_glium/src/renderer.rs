@@ -124,6 +124,15 @@ impl Renderer for GliumRenderer {
         }
     }
 
+    fn take_screenshot(&self, filename: &str) {
+        let image: glium::texture::RawImage2d<u8> = self.display.read_front_buffer().unwrap();
+        let image =
+            image::ImageBuffer::from_raw(image.width, image.height, image.data.into_owned())
+                .unwrap();
+        let image = image::DynamicImage::ImageRgba8(image).flipv();
+        image.save(filename).unwrap();
+    }
+
     fn load_texture(&mut self, filename: &str) -> TextureId {
         let texture = load_texture(&self.display, filename).unwrap();
         let id = self.texture_data.len();

@@ -18,6 +18,9 @@ pub trait Renderer {
     /// Finishes the rendering
     fn finish(&mut self);
 
+    /// Takes a screenshot and saves it.
+    fn take_screenshot(&self, filename: &str);
+
     /// Loads a texture from a file and returns a `TextureId` as a handle
     ///
     /// # Panics

@@ -12,6 +12,7 @@ use std::rc::Rc;
 #[derive(Default)]
 pub struct AsciiExample {
     texture_id: TextureId,
+    take_screenshot: bool,
 }
 
 impl App for AsciiExample {
@@ -33,10 +34,20 @@ impl App for AsciiExample {
             YELLOW,
         );
         renderer.finish();
+
+        if self.take_screenshot {
+            println!("Take screenshot");
+            renderer.take_screenshot("ascii.png");
+            self.take_screenshot = false;
+        }
     }
 
     fn on_key_released(&mut self, key: KeyCode) {
-        println!("Released {:?}", key)
+        println!("Released {:?}", key);
+
+        if key == KeyCode::Snapshot {
+            self.take_screenshot = true;
+        }
     }
 }
 
