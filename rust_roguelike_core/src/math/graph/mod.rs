@@ -1,3 +1,5 @@
+pub mod map2d;
+
 /// A trait to represent a graph
 pub trait Graph<N, E> {
     /// Returns the graph's number of nodes
