@@ -15,6 +15,6 @@ pub trait Graph<N, E> {
 /// The neighbor of one node of the graph
 #[derive(Clone, Copy, Debug)]
 pub struct Neighbor<T> {
-    index: usize,
-    edge: T,
+    pub index: usize,
+    pub edge: T,
 }

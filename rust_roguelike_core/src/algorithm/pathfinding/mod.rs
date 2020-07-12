@@ -1,3 +1,5 @@
+pub mod a_star;
+
 use crate::math::graph::{Graph, Neighbor};
 
 pub enum PathfindingResult<E> {
