@@ -2,13 +2,13 @@ pub mod a_star;
 
 use crate::math::graph::{Graph, Neighbor};
 
-pub enum PathfindingResult<E> {
+pub enum PathfindingResult {
     GoalAlreadyReached,
     NotSearched,
     NoPathFound,
     Path {
         total_cost: u32,
-        neighbors: Vec<Box<Neighbor<E>>>,
+        indices: Vec<usize>,
     },
 }
 
@@ -19,7 +19,7 @@ pub trait CostCalculator<E> {
 }
 
 pub trait PathfindingAlgorithm<N, E> {
-    fn find<G>(&self, graph: &G, start: usize, goal: usize) -> PathfindingResult<E>
+    fn find<G>(&self, graph: &G, start: usize, goal: usize) -> PathfindingResult
     where
         G: Graph<N, E> + CostCalculator<E>;
 }
