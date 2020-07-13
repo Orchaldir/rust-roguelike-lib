@@ -14,9 +14,12 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
         println!("Find a path from {} to {}", start, goal);
 
         let mut open_nodes = BinaryHeap::new();
-        open_nodes.push(OpenNode { index: start, total_cost: 0});
+        open_nodes.push(OpenNode {
+            index: start,
+            total_cost: 0,
+        });
 
-        let mut nodes: HashMap<usize,Node> = HashMap::new();
+        let mut nodes: HashMap<usize, Node> = HashMap::new();
         nodes.insert(start, Node::new(MAX));
 
         while let Some(node) = open_nodes.pop() {
@@ -36,18 +39,20 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
                     neighbor_node.cost_from_previous = cost_to_neighbor;
                     neighbor_node.total_cost = new_total_cost;
                     neighbor_node.previous = Some(node.index);
-                    open_nodes.push(OpenNode { index: start, total_cost: neighbor_node.total_cost});
+                    open_nodes.push(OpenNode {
+                        index: start,
+                        total_cost: neighbor_node.total_cost,
+                    });
                 }
             }
         }
 
-        return PathfindingResult::NoPathFound
+        PathfindingResult::NoPathFound
     }
 }
 
 impl AStar {
-
-    fn create_path(&self, nodes: &HashMap<usize,Node>, goal: usize) -> PathfindingResult {
+    fn create_path(&self, nodes: &HashMap<usize, Node>, goal: usize) -> PathfindingResult {
         let mut current_node = nodes.get(&goal);
         let total_cost = current_node.unwrap().total_cost;
         let mut current_index = goal;
@@ -65,7 +70,7 @@ impl AStar {
 
         PathfindingResult::Path {
             total_cost,
-            indices
+            indices,
         }
     }
 }
@@ -106,11 +111,11 @@ struct Node {
 
 impl Node {
     fn new(total_cost: u32) -> Self {
-        Node  {
+        Node {
             cost_from_previous: 0,
             heuristic: 0,
             total_cost,
-            previous: None
+            previous: None,
         }
     }
 }
