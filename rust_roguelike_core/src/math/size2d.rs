@@ -15,6 +15,17 @@ impl Size2d {
         Size2d { x, y }
     }
 
+    /// Returns the number of tiles covered by an area of this size
+    ///
+    /// ```
+    ///# use rust_roguelike_core::math::size2d::Size2d;
+    /// let size = Size2d::new(2, 3);
+    /// assert_eq!(size.get_tiles(), 6);
+    /// ```
+    pub fn get_tiles(&self) -> usize {
+        (self.x * self.y) as usize
+    }
+
     /// Returns the size along the x-axis
     ///
     /// ```

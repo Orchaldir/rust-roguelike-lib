@@ -42,6 +42,10 @@ impl GliumWindow {
 }
 
 impl Window for GliumWindow {
+    fn get_tiles(&self) -> Size2d {
+        self.tiles
+    }
+
     fn run(&mut self, app: Rc<RefCell<dyn App>>) -> ! {
         let event_loop = glutin::event_loop::EventLoop::new();
         let display = self.create_display(&event_loop);

@@ -62,5 +62,9 @@ pub trait AsciiRenderer {
 }
 
 pub trait Window {
+    /// Returns the size of the window in tiles.
+    fn get_tiles(&self) -> Size2d;
+
+    /// Runs the application using the window as the render target
     fn run(&mut self, app: Rc<RefCell<dyn App>>) -> !;
 }
