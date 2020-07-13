@@ -1,7 +1,7 @@
 use std::ops::{Add, Mul};
 
 /// Defines the size of something in 2 dimensions.
-#[derive(PartialEq, Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Size2d {
     x: u32,
     y: u32,
