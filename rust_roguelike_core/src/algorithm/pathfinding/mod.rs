@@ -2,6 +2,7 @@ pub mod a_star;
 
 use crate::math::graph::{Graph, Neighbor};
 
+#[derive(Debug)]
 pub enum PathfindingResult {
     GoalAlreadyReached,
     NotSearched,
@@ -10,6 +11,12 @@ pub enum PathfindingResult {
         total_cost: u32,
         indices: Vec<usize>,
     },
+}
+
+impl Default for PathfindingResult {
+    fn default() -> Self {
+        PathfindingResult::NotSearched
+    }
 }
 
 pub trait CostCalculator<E> {

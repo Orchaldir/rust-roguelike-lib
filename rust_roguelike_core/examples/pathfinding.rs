@@ -1,5 +1,9 @@
 extern crate rust_roguelike_rendering_glium;
 
+use rust_roguelike_core::algorithm::pathfinding::a_star::AStar;
+use rust_roguelike_core::algorithm::pathfinding::{
+    CostCalculator, PathfindingAlgorithm, PathfindingResult,
+};
 use rust_roguelike_core::interface::input::{KeyCode, MouseButton};
 use rust_roguelike_core::interface::rendering::{Renderer, TextureId, Window};
 use rust_roguelike_core::interface::App;
@@ -49,6 +53,32 @@ impl OccupancyMap {
             self.cells[self.size.to_index(end_x - 1, y)] = value;
         }
     }
+
+    fn add_neighbor(
+        &self,
+        neighbors: &mut Vec<Neighbor<Direction2d>>,
+        point: [i32; 2],
+        dir: Direction2d,
+        dx: i32,
+        dy: i32,
+    ) {
+        neighbors.push(Neighbor {
+            index: self
+                .size
+                .to_index((point[0] + dx) as u32, (point[1] + dy) as u32),
+            edge: dir,
+        });
+    }
+}
+
+impl CostCalculator<Direction2d> for OccupancyMap {
+    fn is_valid(&self, index: usize) -> bool {
+        return !*self.cells.get(index).unwrap_or(&true);
+    }
+
+    fn calculate_cost(&self, _index: usize, _neighbor: &Neighbor<Direction2d>) -> u32 {
+        1
+    }
 }
 
 impl Graph<bool, Direction2d> for OccupancyMap {
@@ -60,8 +90,17 @@ impl Graph<bool, Direction2d> for OccupancyMap {
         self.cells.get(index)
     }
 
-    fn get_neighbors(&self, _index: usize) -> &[Neighbor<Direction2d>] {
-        unimplemented!()
+    fn get_neighbors(&self, index: usize) -> Vec<Neighbor<Direction2d>> {
+        let [x, y] = self.size.to_point(index);
+        let point = [x as i32, y as i32];
+        let mut neighbors = Vec::new();
+
+        self.add_neighbor(&mut neighbors, point, Direction2d::NORTH, 0, 1);
+        self.add_neighbor(&mut neighbors, point, Direction2d::EAST, 1, 0);
+        self.add_neighbor(&mut neighbors, point, Direction2d::SOUTH, 0, -1);
+        self.add_neighbor(&mut neighbors, point, Direction2d::WEST, -1, 0);
+
+        neighbors
     }
 }
 
@@ -75,6 +114,18 @@ impl Map2d<bool, Direction2d> for OccupancyMap {
 pub struct PathfindingExample {
     texture_id: TextureId,
     occupancy_map: OccupancyMap,
+    start: usize,
+    goal: usize,
+    result: PathfindingResult,
+}
+
+impl PathfindingExample {
+    fn update(&mut self) {
+        let algorithm = AStar {};
+
+        self.result = algorithm.find(&self.occupancy_map, self.start, self.goal);
+        println!("Result={:?}", self.result)
+    }
 }
 
 impl App for PathfindingExample {
@@ -108,6 +159,7 @@ impl App for PathfindingExample {
 
     fn on_button_released(&mut self, button: MouseButton, index: usize) {
         println!("Released {:?} at {}", button, index);
+        self.update();
     }
 }
 

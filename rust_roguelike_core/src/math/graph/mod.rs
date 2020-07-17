@@ -9,7 +9,7 @@ pub trait Graph<N, E> {
     fn get_node(&self, index: usize) -> Option<&N>;
 
     /// Returns the neighbors of a node
-    fn get_neighbors(&self, index: usize) -> &[Neighbor<E>];
+    fn get_neighbors(&self, index: usize) -> Vec<Neighbor<E>>;
 }
 
 /// The neighbor of one node of the graph

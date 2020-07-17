@@ -32,7 +32,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
                     .entry(neighbor.index)
                     .or_insert_with(|| Node::new(u32::MAX));
 
-                let cost_to_neighbor = graph.calculate_cost(node.index, neighbor);
+                let cost_to_neighbor = graph.calculate_cost(node.index, &neighbor);
                 let new_total_cost = node.total_cost + cost_to_neighbor + neighbor_node.heuristic;
 
                 if new_total_cost < neighbor_node.total_cost {
