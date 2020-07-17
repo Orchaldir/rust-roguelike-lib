@@ -7,7 +7,7 @@ use rust_roguelike_core::algorithm::pathfinding::{
 use rust_roguelike_core::interface::input::{KeyCode, MouseButton};
 use rust_roguelike_core::interface::rendering::{Renderer, TextureId, Window};
 use rust_roguelike_core::interface::App;
-use rust_roguelike_core::math::color::{BLACK, WHITE};
+use rust_roguelike_core::math::color::{BLACK, BLUE, GREEN, RED, WHITE};
 use rust_roguelike_core::math::graph::map2d::{Direction2d, Map2d};
 use rust_roguelike_core::math::graph::{Graph, Neighbor};
 use rust_roguelike_core::math::size2d::Size2d;
@@ -154,6 +154,20 @@ impl App for PathfindingExample {
             tile_renderer.render_ascii(renderer, i, ascii, WHITE);
         }
 
+        tile_renderer.render_ascii(renderer, self.start, b'S', GREEN);
+
+        if let PathfindingResult::Path {
+            total_cost,
+            indices,
+        } = &self.result
+        {
+            for node in indices {
+                tile_renderer.render_ascii(renderer, *node, b'+', BLUE);
+            }
+        }
+
+        tile_renderer.render_ascii(renderer, self.goal, b'G', RED);
+
         renderer.finish();
     }
 
@@ -163,6 +177,13 @@ impl App for PathfindingExample {
 
     fn on_button_released(&mut self, button: MouseButton, index: usize) {
         println!("Released {:?} at {}", button, index);
+
+        match button {
+            MouseButton::Left => self.start = index,
+            MouseButton::Right => self.goal = index,
+            _ => {}
+        }
+
         self.update();
     }
 }
