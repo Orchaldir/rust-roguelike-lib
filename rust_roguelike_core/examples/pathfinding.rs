@@ -32,19 +32,19 @@ impl OccupancyMap {
     }
 
     pub fn add_border(&mut self) {
-        self.add_rectangle(0, 0, self.size.x(), self.size.y(), true)
+        self.add_rectangle(0, 0, self.size.width(), self.size.height(), true)
     }
 
     pub fn add_rectangle(
         &mut self,
         start_x: u32,
         start_y: u32,
-        size_x: u32,
-        size_y: u32,
+        width: u32,
+        height: u32,
         value: bool,
     ) {
-        let end_x = start_x + size_x;
-        let end_y = start_y + size_y;
+        let end_x = start_x + width;
+        let end_y = start_y + height;
 
         for x in start_x..end_x {
             self.is_occupied[self.size.to_index(x, start_y)] = value;

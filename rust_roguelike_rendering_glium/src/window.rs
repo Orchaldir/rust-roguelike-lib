@@ -31,7 +31,7 @@ impl GliumWindow {
     }
 
     fn create_display(&self, event_loop: &glutin::event_loop::EventLoop<()>) -> Display {
-        let size = glutin::dpi::LogicalSize::new(self.size.x(), self.size.y());
+        let size = glutin::dpi::LogicalSize::new(self.size.width(), self.size.height());
         let wb = glutin::window::WindowBuilder::new()
             .with_title(self.title)
             .with_resizable(false)
@@ -82,8 +82,10 @@ impl Window for GliumWindow {
                         }
                     }
                     glutin::event::WindowEvent::CursorMoved { position, .. } => {
-                        let x = position.x as u32 / tile_size.x();
-                        let y = cmp::max(tiles.y() - position.y as u32 / tile_size.y(), 1) - 1;
+                        let x = position.x as u32 / tile_size.width();
+                        let y =
+                            cmp::max(tiles.height() - position.y as u32 / tile_size.height(), 1)
+                                - 1;
                         mouse_index = tiles.to_index(x, y);
                         return;
                     }

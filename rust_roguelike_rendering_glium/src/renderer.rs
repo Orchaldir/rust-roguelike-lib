@@ -34,8 +34,14 @@ impl GliumRenderer {
         let colored_program = load_program(&display, "colored.vertex", "colored.fragment");
         let textured_program = load_program(&display, "textured.vertex", "textured.fragment");
 
-        let matrix: cgmath::Matrix4<f32> =
-            ortho(0.0, size.x() as f32, 0.0, size.y() as f32, -1.0, 1.0);
+        let matrix: cgmath::Matrix4<f32> = ortho(
+            0.0,
+            size.width() as f32,
+            0.0,
+            size.height() as f32,
+            -1.0,
+            1.0,
+        );
 
         GliumRenderer {
             size,

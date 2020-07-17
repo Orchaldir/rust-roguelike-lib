@@ -3,16 +3,19 @@ use std::ops::{Add, Mul};
 /// Defines the size of something in 2 dimensions.
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Size2d {
-    x: u32,
-    y: u32,
+    width: u32,
+    height: u32,
 }
 
-pub const ZERO: Size2d = Size2d { x: 0, y: 0 };
+pub const ZERO: Size2d = Size2d {
+    width: 0,
+    height: 0,
+};
 
 impl Size2d {
     /// Creates a new Size2d
-    pub fn new(x: u32, y: u32) -> Size2d {
-        Size2d { x, y }
+    pub fn new(width: u32, height: u32) -> Size2d {
+        Size2d { width, height }
     }
 
     /// Returns the number of tiles covered by an area of this size
@@ -23,7 +26,7 @@ impl Size2d {
     /// assert_eq!(size.get_tiles(), 6);
     /// ```
     pub fn get_tiles(&self) -> usize {
-        (self.x * self.y) as usize
+        (self.width * self.height) as usize
     }
 
     /// Returns the size along the x-axis
@@ -31,10 +34,10 @@ impl Size2d {
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
     /// let size = Size2d::new(2, 3);
-    /// assert_eq!(size.x(), 2);
+    /// assert_eq!(size.width(), 2);
     /// ```
-    pub fn x(&self) -> u32 {
-        self.x
+    pub fn width(&self) -> u32 {
+        self.width
     }
 
     /// Returns the size along the y-axis
@@ -42,10 +45,10 @@ impl Size2d {
     /// ```
     ///# use rust_roguelike_core::math::size2d::Size2d;
     /// let size = Size2d::new(2, 3);
-    /// assert_eq!(size.y(), 3);
+    /// assert_eq!(size.height(), 3);
     /// ```
-    pub fn y(&self) -> u32 {
-        self.y
+    pub fn height(&self) -> u32 {
+        self.height
     }
 
     /// Converts an index to the x-coordinate of the equivalent point
@@ -56,7 +59,7 @@ impl Size2d {
     /// assert_eq!(size.to_x(5), 1);
     /// ```
     pub fn to_x(&self, index: usize) -> u32 {
-        index as u32 % self.x
+        index as u32 % self.width
     }
 
     /// Converts an index to the y-coordinate of the equivalent point
@@ -67,7 +70,7 @@ impl Size2d {
     /// assert_eq!(size.to_y(5), 2);
     /// ```
     pub fn to_y(&self, index: usize) -> u32 {
-        index as u32 / self.x
+        index as u32 / self.width
     }
 
     /// Converts an index to the equivalent point
@@ -89,7 +92,7 @@ impl Size2d {
     /// assert_eq!(size.to_index(1, 2), 5);
     /// ```
     pub fn to_index(&self, x: u32, y: u32) -> usize {
-        (y * self.x + x) as usize
+        (y * self.width + x) as usize
     }
 }
 
@@ -106,8 +109,8 @@ impl Add for Size2d {
 
     fn add(self, other: Self) -> Self {
         Size2d {
-            x: self.x + other.x,
-            y: self.y + other.y,
+            width: self.width + other.width,
+            height: self.height + other.height,
         }
     }
 }
@@ -125,8 +128,8 @@ impl Mul for Size2d {
 
     fn mul(self, other: Self) -> Self {
         Size2d {
-            x: self.x * other.x,
-            y: self.y * other.y,
+            width: self.width * other.width,
+            height: self.height * other.height,
         }
     }
 }
