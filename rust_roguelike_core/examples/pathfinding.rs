@@ -18,14 +18,17 @@ use std::rc::Rc;
 
 #[derive(Default)]
 struct OccupancyMap {
-    pub cells: Vec<bool>,
+    pub is_occupied: Vec<bool>,
     size: Size2d,
 }
 
 impl OccupancyMap {
     pub fn new(size: Size2d, default: bool) -> Self {
         let cells = vec![default; size.get_tiles()];
-        OccupancyMap { cells, size }
+        OccupancyMap {
+            is_occupied: cells,
+            size,
+        }
     }
 
     pub fn add_border(&mut self) {
@@ -44,13 +47,13 @@ impl OccupancyMap {
         let end_y = start_y + size_y;
 
         for x in start_x..end_x {
-            self.cells[self.size.to_index(x, start_y)] = value;
-            self.cells[self.size.to_index(x, end_y - 1)] = value;
+            self.is_occupied[self.size.to_index(x, start_y)] = value;
+            self.is_occupied[self.size.to_index(x, end_y - 1)] = value;
         }
 
         for y in start_y..end_y {
-            self.cells[self.size.to_index(start_x, y)] = value;
-            self.cells[self.size.to_index(end_x - 1, y)] = value;
+            self.is_occupied[self.size.to_index(start_x, y)] = value;
+            self.is_occupied[self.size.to_index(end_x - 1, y)] = value;
         }
     }
 
@@ -62,18 +65,19 @@ impl OccupancyMap {
         dx: i32,
         dy: i32,
     ) {
-        neighbors.push(Neighbor {
-            index: self
-                .size
-                .to_index((point[0] + dx) as u32, (point[1] + dy) as u32),
-            edge: dir,
-        });
+        let index = self
+            .size
+            .to_index((point[0] + dx) as u32, (point[1] + dy) as u32);
+
+        if self.is_valid(index) {
+            neighbors.push(Neighbor { index, edge: dir });
+        }
     }
 }
 
 impl CostCalculator<Direction2d> for OccupancyMap {
     fn is_valid(&self, index: usize) -> bool {
-        return !*self.cells.get(index).unwrap_or(&true);
+        return !*self.is_occupied.get(index).unwrap_or(&true);
     }
 
     fn calculate_cost(&self, _index: usize, _neighbor: &Neighbor<Direction2d>) -> u32 {
@@ -87,7 +91,7 @@ impl Graph<bool, Direction2d> for OccupancyMap {
     }
 
     fn get_node(&self, index: usize) -> Option<&bool> {
-        self.cells.get(index)
+        self.is_occupied.get(index)
     }
 
     fn get_neighbors(&self, index: usize) -> Vec<Neighbor<Direction2d>> {

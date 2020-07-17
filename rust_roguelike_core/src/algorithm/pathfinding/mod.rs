@@ -1,6 +1,7 @@
 pub mod a_star;
 
 use crate::math::graph::{Graph, Neighbor};
+use std::fmt::Debug;
 
 #[derive(Debug)]
 pub enum PathfindingResult {
@@ -28,5 +29,6 @@ pub trait CostCalculator<E> {
 pub trait PathfindingAlgorithm<N, E> {
     fn find<G>(&self, graph: &G, start: usize, goal: usize) -> PathfindingResult
     where
-        G: Graph<N, E> + CostCalculator<E>;
+        G: Graph<N, E> + CostCalculator<E>,
+        E: Debug;
 }

@@ -2,7 +2,7 @@ use crate::algorithm::pathfinding::{CostCalculator, PathfindingAlgorithm, Pathfi
 use crate::math::graph::Graph;
 use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
-use std::u32::MAX;
+use std::fmt::Debug;
 
 pub struct AStar {}
 
@@ -10,6 +10,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
     fn find<G>(&self, graph: &G, start: usize, goal: usize) -> PathfindingResult
     where
         G: Graph<N, E> + CostCalculator<E>,
+        E: Debug,
     {
         println!("Find a path from {} to {}", start, goal);
 
@@ -20,7 +21,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
         });
 
         let mut nodes: HashMap<usize, Node> = HashMap::new();
-        nodes.insert(start, Node::new(MAX));
+        nodes.insert(start, Node::new(0));
 
         while let Some(node) = open_nodes.pop() {
             if node.index == goal {
@@ -40,7 +41,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
                     neighbor_node.total_cost = new_total_cost;
                     neighbor_node.previous = Some(node.index);
                     open_nodes.push(OpenNode {
-                        index: start,
+                        index: neighbor.index,
                         total_cost: neighbor_node.total_cost,
                     });
                 }
@@ -66,6 +67,7 @@ impl AStar {
             });
         }
 
+        indices.pop();
         indices.reverse();
 
         PathfindingResult::Path {
@@ -101,7 +103,7 @@ impl PartialOrd for OpenNode {
     }
 }
 
-#[derive(Copy, Clone, Default, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Default, Eq, PartialEq)]
 struct Node {
     cost_from_previous: u32,
     heuristic: u32,

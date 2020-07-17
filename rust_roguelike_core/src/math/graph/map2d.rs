@@ -8,6 +8,7 @@ pub trait Map2d<N, E>: Graph<N, E> {
 }
 
 /// The direction between neighbors in a Map2d
+#[derive(Debug)]
 pub enum Direction2d {
     NORTH,
     EAST,
