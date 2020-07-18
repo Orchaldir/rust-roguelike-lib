@@ -3,7 +3,7 @@ pub mod a_star;
 use crate::math::graph::{Graph, Neighbor};
 use std::fmt::Debug;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum PathfindingResult {
     GoalAlreadyReached,
     NotSearched,
@@ -27,6 +27,7 @@ pub trait CostCalculator<E> {
 }
 
 pub trait PathfindingAlgorithm<N, E> {
+    /// Finds the shortest available path from the start node to the goal node of the graph
     fn find<G>(&self, graph: &G, start: usize, goal: usize) -> PathfindingResult
     where
         G: Graph<N, E> + CostCalculator<E>,

@@ -4,9 +4,30 @@ use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
 use std::fmt::Debug;
 
+/// The A* search algorithm
+///
+/// See [Wikipedia](https://en.wikipedia.org/wiki/A*_search_algorithm)
 pub struct AStar {}
 
 impl<N, E> PathfindingAlgorithm<N, E> for AStar {
+    /// Finds the shortest available path from the start node to the goal node of the graph
+    ///
+    /// ```
+    ///# use rust_roguelike_core::math::graph::occupancy::OccupancyMap;
+    ///# use rust_roguelike_core::math::size2d::Size2d;
+    ///# use rust_roguelike_core::algorithm::pathfinding::a_star::AStar;
+    ///# use rust_roguelike_core::algorithm::pathfinding::{PathfindingAlgorithm, PathfindingResult};
+    /// let mut map = OccupancyMap::new(Size2d::new(5, 4), false);
+    /// map.add_border();
+    /// map.set_node(7, true);
+    /// let algorithm = AStar {};
+    ///
+    /// assert_eq!(algorithm.find(&map, 6, 8),
+    ///            PathfindingResult::Path {
+    ///              total_cost: 4,
+    ///              indices: vec![11, 12, 13, 8],
+    ///            });
+    /// ```
     fn find<G>(&self, graph: &G, start: usize, goal: usize) -> PathfindingResult
     where
         G: Graph<N, E> + CostCalculator<E>,
@@ -47,6 +68,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
 }
 
 impl AStar {
+    /// Backtracks the path from the goal to the start node
     fn create_path(&self, nodes: &HashMap<usize, Node>, goal: usize) -> PathfindingResult {
         let mut current_node = nodes.get(&goal);
         let total_cost = current_node.unwrap().total_cost;

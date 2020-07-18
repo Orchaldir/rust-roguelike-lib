@@ -44,6 +44,10 @@ impl OccupancyMap {
         }
     }
 
+    pub fn set_node(&mut self, index: usize, value: bool) {
+        self.is_occupied[index] = value;
+    }
+
     fn add_neighbor(
         &self,
         neighbors: &mut Vec<Neighbor<Direction2d>>,
@@ -64,7 +68,7 @@ impl OccupancyMap {
 
 impl CostCalculator<Direction2d> for OccupancyMap {
     fn is_valid(&self, index: usize) -> bool {
-        return !*self.is_occupied.get(index).unwrap_or(&true);
+        !*self.is_occupied.get(index).unwrap_or(&true)
     }
 
     fn calculate_cost(&self, _index: usize, _neighbor: &Neighbor<Direction2d>) -> u32 {
