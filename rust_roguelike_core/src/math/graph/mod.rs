@@ -1,4 +1,5 @@
 pub mod map2d;
+pub mod occupancy;
 
 /// A trait to represent a graph
 pub trait Graph<N, E> {
