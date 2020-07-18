@@ -1,3 +1,4 @@
+use crate::algorithm::pathfinding::PathfindingResult::*;
 use crate::algorithm::pathfinding::{CostCalculator, PathfindingAlgorithm, PathfindingResult};
 use crate::math::graph::Graph;
 use std::cmp::Ordering;
@@ -34,6 +35,14 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
         E: Debug,
     {
         println!("Find a path from {} to {}", start, goal);
+
+        if start == goal {
+            return GoalAlreadyReached;
+        } else if !graph.is_valid(start) {
+            return InvalidStart;
+        } else if !graph.is_valid(goal) {
+            return InvalidGoal;
+        }
 
         let mut open_nodes = BinaryHeap::new();
         open_nodes.push(OpenNode::start(start));
@@ -148,5 +157,49 @@ impl Node {
             total_cost,
             previous: None,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::math::graph::occupancy::OccupancyMap;
+    use crate::math::size2d::Size2d;
+
+    #[test]
+    fn test_no_path_found() {
+        let mut map = OccupancyMap::new(Size2d::new(5, 3), false);
+        map.add_border();
+        map.set_node(7, true);
+        let algorithm = AStar {};
+
+        assert_eq!(algorithm.find(&map, 6, 8), NoPathFound);
+    }
+
+    #[test]
+    fn test_goal_already_reached() {
+        let mut map = OccupancyMap::new(Size2d::new(3, 3), false);
+        map.add_border();
+        let algorithm = AStar {};
+
+        assert_eq!(algorithm.find(&map, 4, 4), GoalAlreadyReached);
+    }
+
+    #[test]
+    fn test_invalid_start() {
+        let mut map = OccupancyMap::new(Size2d::new(3, 3), false);
+        map.add_border();
+        let algorithm = AStar {};
+
+        assert_eq!(algorithm.find(&map, 0, 4), InvalidStart);
+    }
+
+    #[test]
+    fn test_invalid_goal() {
+        let mut map = OccupancyMap::new(Size2d::new(3, 3), false);
+        map.add_border();
+        let algorithm = AStar {};
+
+        assert_eq!(algorithm.find(&map, 4, 0), InvalidGoal);
     }
 }

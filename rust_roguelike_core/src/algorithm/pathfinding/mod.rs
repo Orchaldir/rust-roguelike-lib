@@ -6,6 +6,8 @@ use std::fmt::Debug;
 #[derive(Debug, PartialEq, Eq)]
 pub enum PathfindingResult {
     GoalAlreadyReached,
+    InvalidStart,
+    InvalidGoal,
     NotSearched,
     NoPathFound,
     Path {
