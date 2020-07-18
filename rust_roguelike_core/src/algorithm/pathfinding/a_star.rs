@@ -15,10 +15,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
         println!("Find a path from {} to {}", start, goal);
 
         let mut open_nodes = BinaryHeap::new();
-        open_nodes.push(OpenNode {
-            index: start,
-            total_cost: 0,
-        });
+        open_nodes.push(OpenNode::start(start));
 
         let mut nodes: HashMap<usize, Node> = HashMap::new();
         nodes.insert(start, Node::new(0));
@@ -40,10 +37,7 @@ impl<N, E> PathfindingAlgorithm<N, E> for AStar {
                     neighbor_node.cost_from_previous = cost_to_neighbor;
                     neighbor_node.total_cost = new_total_cost;
                     neighbor_node.previous = Some(node.index);
-                    open_nodes.push(OpenNode {
-                        index: neighbor.index,
-                        total_cost: neighbor_node.total_cost,
-                    });
+                    open_nodes.push(OpenNode::new(neighbor.index, neighbor_node.total_cost));
                 }
             }
         }
@@ -81,6 +75,19 @@ impl AStar {
 struct OpenNode {
     index: usize,
     total_cost: u32,
+}
+
+impl OpenNode {
+    fn new(index: usize, total_cost: u32) -> Self {
+        OpenNode { index, total_cost }
+    }
+
+    fn start(index: usize) -> Self {
+        OpenNode {
+            index,
+            total_cost: 0,
+        }
+    }
 }
 
 impl PartialEq for OpenNode {
