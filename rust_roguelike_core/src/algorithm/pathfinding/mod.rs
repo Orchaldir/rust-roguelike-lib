@@ -10,10 +10,7 @@ pub enum PathfindingResult {
     InvalidGoal,
     NotSearched,
     NoPathFound,
-    Path {
-        total_cost: u32,
-        indices: Vec<usize>,
-    },
+    Path { indices: Vec<usize> },
 }
 
 impl Default for PathfindingResult {

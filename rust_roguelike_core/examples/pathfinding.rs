@@ -24,7 +24,7 @@ pub struct PathfindingExample {
 
 impl PathfindingExample {
     fn update(&mut self) {
-        let algorithm = AStar {};
+        let algorithm = AStar::default();
 
         self.result = algorithm.find(&self.occupancy_map, self.start, self.goal);
         println!("Result={:?}", self.result)
@@ -55,11 +55,7 @@ impl App for PathfindingExample {
 
         tile_renderer.render_ascii(renderer, self.start, b'S', GREEN);
 
-        if let PathfindingResult::Path {
-            total_cost: _,
-            indices,
-        } = &self.result
-        {
+        if let PathfindingResult::Path { indices } = &self.result {
             for node in indices {
                 tile_renderer.render_ascii(renderer, *node, b'+', BLUE);
             }

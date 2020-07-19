@@ -1,9 +1,16 @@
 /// Different ways to calculate the distance between 2 points.
+#[derive(Clone, Copy)]
 pub enum DistanceCalculator {
     /// See [Wikipedia](https://en.wikipedia.org/wiki/Chebyshev_distance)
     Chebyshev,
     /// See [Wikipedia](https://en.wikipedia.org/wiki/Manhattan_distance)
     Manhattan,
+}
+
+impl Default for DistanceCalculator {
+    fn default() -> Self {
+        DistanceCalculator::Manhattan
+    }
 }
 
 impl DistanceCalculator {
