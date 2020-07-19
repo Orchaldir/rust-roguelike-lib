@@ -1,3 +1,5 @@
+use crate::math::distance::DistanceCalculator;
+
 pub mod map2d;
 pub mod occupancy;
 
@@ -11,6 +13,9 @@ pub trait Graph<N, E> {
 
     /// Returns the neighbors of a node
     fn get_neighbors(&self, index: usize) -> Vec<Neighbor<E>>;
+
+    /// Returns the distance between 2 nodes of the graph
+    fn get_distance(&self, calculator: DistanceCalculator, from: usize, to: usize) -> u32;
 }
 
 /// The neighbor of one node of the graph

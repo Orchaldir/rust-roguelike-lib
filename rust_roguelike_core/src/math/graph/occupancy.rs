@@ -1,4 +1,5 @@
 use crate::algorithm::pathfinding::CostCalculator;
+use crate::math::distance::DistanceCalculator;
 use crate::math::graph::map2d::{Direction2d, Map2d};
 use crate::math::graph::{Graph, Neighbor};
 use crate::math::size2d::Size2d;
@@ -96,6 +97,26 @@ impl Graph<bool, Direction2d> for OccupancyMap {
         self.add_neighbor(&mut neighbors, point, Direction2d::WEST, -1, 0);
 
         neighbors
+    }
+
+    /// Returns the distance between 2 nodes of the graph
+    ///
+    /// ```
+    ///# use rust_roguelike_core::math::distance::DistanceCalculator::*;
+    ///# use rust_roguelike_core::math::graph::occupancy::OccupancyMap;
+    ///# use rust_roguelike_core::math::graph::Graph;
+    ///# use rust_roguelike_core::math::size2d::Size2d;
+    /// let mut map = OccupancyMap::new(Size2d::new(3, 4), false);
+    ///
+    /// assert_eq!(map.get_distance(Manhattan, 0, 11), 5);
+    /// assert_eq!(map.get_distance(Manhattan, 11, 0), 5);
+    /// assert_eq!(map.get_distance(Chebyshev, 0, 11), 3);
+    /// assert_eq!(map.get_distance(Chebyshev, 11, 0), 3);
+    /// ```
+    fn get_distance(&self, calculator: DistanceCalculator, from: usize, to: usize) -> u32 {
+        let [from_x, from_y] = self.size.to_point(from);
+        let [to_x, to_y] = self.size.to_point(to);
+        calculator.calculate_2d(from_x as i32, from_y as i32, to_x as i32, to_y as i32)
     }
 }
 
